@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   intendedTileId: 1
   updatedTilePrefab: {fileID: 6262186715028251962, guid: 9979500e249d2ac47bae5422598ccb59, type: 3}
-  requiredAdjacentTileIDs:
+  requiredAdjacentTileIds:
   - 
   - 
   - 
   - 
-  - 
+  - 12345678901234567890
   - 1
