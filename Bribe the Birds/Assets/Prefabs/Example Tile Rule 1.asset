@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9147c6abf817d9846b799d760ebf9c3b, type: 3}
-  m_Name: Example Tile Rule
+  m_Name: Example Tile Rule 1
   m_EditorClassIdentifier: 
   intendedTileId: 
   updatedTilePrefab: {fileID: 0}

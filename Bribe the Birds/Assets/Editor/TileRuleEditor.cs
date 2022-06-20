@@ -165,7 +165,8 @@ public class TileRuleEditor : Editor {
             "The Update Object in the center of the hexagon is what the Tile Object will be updated to if the rules are satisfied. \n" +
             "The boxes around the center are the Id's of required tiles to replace the Tile Object with the Update Object.\n" +
             "If a box is left empty it is ignored when the Tile Rule is used. \n" +
-            "Every tile should be given an ID and the Id's of \"0\" and \"Null\n should be avoided.";
+            "Every tile should be given an ID and the Id's of \"0\" and \"Null\" should be avoided.\n" +
+            "There is a child of the tile which replaced, the parent GameObject and Variables are not changed.";
 
         GUILayout.TextArea(helpMessage, helpBoxStyle);
     }

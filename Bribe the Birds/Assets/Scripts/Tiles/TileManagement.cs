@@ -80,6 +80,8 @@ public class TileManagement : MonoBehaviour {
     void Start() {
         GenerateTiles();
 
+        ApplyTileRules();
+
         List<Vector2Int> tileLocs = GetAdjacentTilesInRadius(new Vector2Int(12, 12), 3);
         tileLocs.AddRange(GetAdjacentTilesInRadius(new Vector2Int(7, 7), 4));
         StartCoroutine(DestroyTiles(tileLocs));
