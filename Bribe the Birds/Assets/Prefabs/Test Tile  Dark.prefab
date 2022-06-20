@@ -75,8 +75,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -247,7 +247,7 @@ GameObject:
   - component: {fileID: 6281051141255583882}
   - component: {fileID: 4296195421042342149}
   m_Layer: 0
-  m_Name: Test Tile
+  m_Name: Test Tile  Dark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -284,8 +284,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileId: 1
   tileObject: {fileID: 7394630429742436455}
-  tileRules:
-  - {fileID: 11400000, guid: 262e1d7fbf6b1e8478182b2553d302fe, type: 2}
+  tileRules: []
 --- !u!1001 &7664678941845269814
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -349,6 +348,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 55bd558e73003e24eb9877cee1eae684, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 10756, guid: 0000000000000000e000000000000000, type: 0}
     - target: {fileID: 919132149155446097, guid: 55bd558e73003e24eb9877cee1eae684, type: 3}
       propertyPath: m_Name
       value: Hex-1
