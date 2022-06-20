@@ -15,6 +15,7 @@ MonoBehaviour:
   intendedTileId: 1
   updatedTilePrefab: {fileID: 6262186715028251962, guid: 9979500e249d2ac47bae5422598ccb59, type: 3}
   requiredAdjacentTileIds:
+  requiredAdjacentTileIDs:
   - 
   - 
   - 

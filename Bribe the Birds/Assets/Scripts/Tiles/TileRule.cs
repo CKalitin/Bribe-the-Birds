@@ -16,6 +16,11 @@ public class TileRule : ScriptableObject {
     public string IntendedTileId { get => intendedTileId; set => intendedTileId = value; }
     public GameObject UpdatedTilePrefab { get => updatedTilePrefab; set => updatedTilePrefab = value; }
     public string[] RequiredAdjacentTiles { get => requiredAdjacentTileIds; set => requiredAdjacentTileIds = value; }
+    [SerializeField] private string[] requiredAdjacentTileIDs;
+
+    public string IntendedTileId { get => intendedTileId; set => intendedTileId = value; }
+    public GameObject UpdatedTilePrefab { get => updatedTilePrefab; set => updatedTilePrefab = value; }
+    public string[] AdjacentTiles { get => requiredAdjacentTileIDs; set => requiredAdjacentTileIDs = value; }
 
     // Return true is updatedTilePrefab should be used
     public bool CheckTileRule(List<Vector2Int> _adjacentTileLocs) {
@@ -24,6 +29,9 @@ public class TileRule : ScriptableObject {
             if (requiredAdjacentTileIds[i] == "") continue; // If there is no TileRule for specified tile
             if (!TileManagement.instance.GetTile(_adjacentTileLocs[i]).Spawned) continue; // If the tile is not spawned (there is no tile at the location)
             if (TileManagement.instance.GetTile(_adjacentTileLocs[i]).TileId != requiredAdjacentTileIds[i]) continue; // If tile ID is correct
+            if (requiredAdjacentTileIDs[i] == "") continue; // If there is no TileRule for specified tile
+            if (!TileManagement.instance.GetTile(_adjacentTileLocs[i]).Spawned) continue; // If the tile is not spawned (there is no tile at the location)
+            if (TileManagement.instance.GetTile(_adjacentTileLocs[i]).TileId != requiredAdjacentTileIDs[i]) continue; // If tile ID is correct
 
             return true;
         }
