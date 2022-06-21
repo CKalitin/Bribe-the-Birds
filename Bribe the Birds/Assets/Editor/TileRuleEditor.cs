@@ -82,8 +82,13 @@ public class TileRuleEditor : Editor {
         HelpBox();
 
         VerticalBreak();
+
+        // This is so the Scriptable Objects save when Unity closes
+        EditorUtility.SetDirty(target);
     }
-    
+
+    #region Display Functions
+
     // Top or Bottom row display function
     private void TopBotRow(int _textAreaOneIndex, int _textAreaTwoIndex) {
         // Begin horizontal line of elements
@@ -170,4 +175,6 @@ public class TileRuleEditor : Editor {
 
         GUILayout.TextArea(helpMessage, helpBoxStyle);
     }
+
+    #endregion
 }
