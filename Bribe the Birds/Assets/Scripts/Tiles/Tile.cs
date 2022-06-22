@@ -6,7 +6,7 @@ public class Tile : MonoBehaviour {
     // These variables should only be used for initialization of tileInfo, Also, it's wise to not use 0
     [Header("User Specified")]
     [Tooltip("These variables should only be used for initialization of tileInfo")]
-    [SerializeField] private string tileId;
+    [SerializeField] private Tiles tileId;
     [Tooltip("These variables should only be used for initialization of tileInfo")]
     [SerializeField] private GameObject tileObject;
 
@@ -15,7 +15,7 @@ public class Tile : MonoBehaviour {
 
     private TileInfo tileInfo;
 
-    public string TileId { get => tileId; set => tileId = value; }
+    public Tiles TileId { get => tileId; set => tileId = value; }
     public GameObject TileObject { get => tileObject; set => tileObject = value; }
     public TileInfo TileInfo { get => tileInfo; set => tileInfo = value; }
 

@@ -36,7 +36,7 @@ public class TileRuleEditor : Editor {
         labelVerticalBreakSize = Screen.height * 0.000005f; // This is the space between the text areas and the labels
         
         textFieldWidth = Screen.width * 0.2f;
-        textFieldHeight = Screen.height * 0.05f;
+        textFieldHeight = Screen.height * 0.025f;
 
         labelHeight = Screen.height * 0.025f;
 
@@ -57,7 +57,7 @@ public class TileRuleEditor : Editor {
 
         #endregion
 
-        tileRule.IntendedTileId = EditorGUILayout.TextField("Intended Tile Id", tileRule.IntendedTileId);
+        tileRule.IntendedTileId = (Tiles)EditorGUILayout.EnumPopup("Intended Tile Id", tileRule.IntendedTileId);
 
         VerticalBreak();
 
@@ -95,9 +95,9 @@ public class TileRuleEditor : Editor {
         EditorGUILayout.BeginHorizontal();
 
         GUILayout.Label("", GUILayout.Width(topbotRowEdgeGap - topbotRowOffset)); // This is a break
-        tileRule.RequiredAdjacentTiles[_textAreaOneIndex] = GUILayout.TextArea(tileRule.RequiredAdjacentTiles[_textAreaOneIndex], GUILayout.Width(textFieldWidth - topbotRowOffset), GUILayout.Height(textFieldHeight));
+        tileRule.RequiredAdjacentTiles[_textAreaOneIndex] = (Tiles)EditorGUILayout.EnumPopup(tileRule.RequiredAdjacentTiles[_textAreaOneIndex], GUILayout.Width(textFieldWidth - topbotRowOffset), GUILayout.Height(textFieldHeight));
         GUILayout.Label("", GUILayout.Width(topbotRowMidGap - topbotRowOffset)); // This is a break
-        tileRule.RequiredAdjacentTiles[_textAreaTwoIndex] = GUILayout.TextArea(tileRule.RequiredAdjacentTiles[_textAreaTwoIndex], GUILayout.Width(textFieldWidth - topbotRowOffset), GUILayout.Height(textFieldHeight));
+        tileRule.RequiredAdjacentTiles[_textAreaTwoIndex] = (Tiles)EditorGUILayout.EnumPopup(tileRule.RequiredAdjacentTiles[_textAreaTwoIndex], GUILayout.Width(textFieldWidth - topbotRowOffset), GUILayout.Height(textFieldHeight));
         GUILayout.Label("", GUILayout.Width(topbotRowEdgeGap - topbotRowOffset)); // This is a break
 
         // End horizontal line of elements
@@ -110,11 +110,11 @@ public class TileRuleEditor : Editor {
         EditorGUILayout.BeginHorizontal();
 
         GUILayout.Label("", GUILayout.Width(middleRowEdgeGap - middleRowOffset)); // This is a break
-        tileRule.RequiredAdjacentTiles[_textAreaOneIndex] = GUILayout.TextArea(tileRule.RequiredAdjacentTiles[_textAreaOneIndex], GUILayout.Width(textFieldWidth - middleRowOffset), GUILayout.Height(textFieldHeight));
+        tileRule.RequiredAdjacentTiles[_textAreaOneIndex] = (Tiles)EditorGUILayout.EnumPopup(tileRule.RequiredAdjacentTiles[_textAreaOneIndex], GUILayout.Width(textFieldWidth - middleRowOffset), GUILayout.Height(textFieldHeight));
         GUILayout.Label("", GUILayout.Width(middleRowMidGap - middleRowOffset)); // This is a break
         tileRule.UpdatedTilePrefab = (GameObject)EditorGUILayout.ObjectField(tileRule.UpdatedTilePrefab, typeof(GameObject), false, GUILayout.Width(textFieldWidth - middleRowOffset), GUILayout.Height(textFieldHeight));
         GUILayout.Label("", GUILayout.Width(middleRowMidGap - middleRowOffset)); // This is a break
-        tileRule.RequiredAdjacentTiles[_textAreaTwoIndex] = GUILayout.TextArea(tileRule.RequiredAdjacentTiles[_textAreaTwoIndex], GUILayout.Width(textFieldWidth - middleRowOffset), GUILayout.Height(textFieldHeight));
+        tileRule.RequiredAdjacentTiles[_textAreaTwoIndex] = (Tiles)EditorGUILayout.EnumPopup(tileRule.RequiredAdjacentTiles[_textAreaTwoIndex], GUILayout.Width(textFieldWidth - middleRowOffset), GUILayout.Height(textFieldHeight));
         GUILayout.Label("", GUILayout.Width(middleRowEdgeGap - middleRowOffset)); // This is a break
 
         // End horizontal line of elements

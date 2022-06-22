@@ -66,7 +66,6 @@ public class ResourceManagement : MonoBehaviour {
             } else {
                 // Create new resourceTick and allocate first index for ticksPerformed and second for resource index
                 resourceTicks.Add(resources[i].CustomTickTime, new List<int>() { 0, i });
-                Debug.Log("New Resource Tick");
             }
                 
         }

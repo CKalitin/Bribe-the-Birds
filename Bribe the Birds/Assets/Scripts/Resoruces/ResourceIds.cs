@@ -17,7 +17,6 @@ public class ResourceIds : ScriptableObject {
 
     // This is used in the custom inspector / editor script
     public void UpdateEnums() {
-        // Set user inputed resourceIds and static resourceIds
         string filePathAndName = resourceEnumPath + resourceEnumName + ".cs"; //The folder where the enum script is expected to exist
 
         using (StreamWriter streamWriter = new StreamWriter(filePathAndName)) {

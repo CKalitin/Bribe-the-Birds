@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(ResourceIds))]
-public class ResourceIdsEditor : Editor {
-    ResourceIds resourceIds;
+[CustomEditor(typeof(TileIds))]
+public class TileIdsEditor : Editor {
+    TileIds tileIds;
 
     float verticalBreakSize;
 
@@ -15,7 +15,7 @@ public class ResourceIdsEditor : Editor {
 
         #region Variables
 
-        resourceIds = (ResourceIds)target; // Get ResourceIds script which is the target
+        tileIds = (TileIds)target; // Get TileIds script which is the target
 
         verticalBreakSize = 5;
 
@@ -26,16 +26,16 @@ public class ResourceIdsEditor : Editor {
 
         VerticalBreak();
 
-        // This button is used for updating resourceIds at runtime
-        if (GUILayout.Button("Generate Resource Enums")) {
-            resourceIds.UpdateEnums();
+        // This button is used for updating tileIds at runtime
+        if (GUILayout.Button("Generate Tile Enums")) {
+            tileIds.UpdateEnums();
 
             // This is used to refresh the assets which adds the newly generated enums
             AssetDatabase.Refresh();
         }
 
         // A tooltip to inform the user about the use of the button above
-        GUILayout.TextArea("Press this button every time you update the resource Ids array.", tooltipStyle);
+        GUILayout.TextArea("Press this button every time you update the tile Ids array.", tooltipStyle);
 
         VerticalBreak();
 
@@ -53,11 +53,11 @@ public class ResourceIdsEditor : Editor {
 
     private void HelpBox() {
         string helpMessage =
-            "This is where resource enums (The dropdown of resource Ids) is configured. \n" +
-            "In the array simply type in the resource names you want (Without Spaces) and click the generate button when finished. \n" +
-            "From here you can use \"Resources.(ResourceName)\" in code when needing the resource id.\n" +
-            "The Resource Enum Path is the path where the enum script will be stored.\n" +
-            "Resource Enum Name is a custom name for the enums instead of \"Resources\", So you would do \"(Resource Enum Name).(Resource Name)\" instead of what's mentioned above.";
+            "This is where tile enums (The dropdown of tile Ids) is configured. \n" +
+            "In the array simply type in the tile Ids you want (Without Spaces) and click the generate button when finished. \n" +
+            "From here you can use \"Tiles.(TileName)\" in code when needing the tile id.\n" +
+            "The Tile Enum Path is the path where the enum script will be stored.\n" +
+            "Tile Enum Name is a custom name for the enums instead of \"Tiles\", So you would do \"(Tile Enum Name).(Tile Name)\" instead of what's mentioned above.";
 
         GUILayout.TextArea(helpMessage, helpBoxStyle);
     }

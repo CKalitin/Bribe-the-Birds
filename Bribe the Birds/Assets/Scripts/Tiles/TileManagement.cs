@@ -6,7 +6,7 @@ using TMPro;
 // This can't be a struct because structs are data types, not reference types. A reference to this is required in the Tile script.
 // Just tested the class reference thing and it is AMAZING! I love references & pointers! hehe
 public class TileInfo {
-    private string tileId;
+    private Tiles tileId;
     private Vector2Int location;
     private float y;
 
@@ -16,7 +16,7 @@ public class TileInfo {
 
     private bool spawned;
 
-    public string TileId { get => tileId; set => tileId = value; }
+    public Tiles TileId { get => tileId; set => tileId = value; }
     public Vector2Int Location { get => location; set => location = value; }
     public float Y { get => y; set => y = value; }
     public GameObject TileObject { get => tileObject; set => tileObject = value; }
@@ -24,7 +24,7 @@ public class TileInfo {
     public Tile Tile { get => tile; set => tile = value; }
     public bool Spawned { get => spawned; set => spawned = value; }
 
-    public TileInfo(string _tileId, Vector2Int _location, float _y, GameObject _parentObject, GameObject _tileObject) {
+    public TileInfo(Tiles _tileId, Vector2Int _location, float _y, GameObject _parentObject, GameObject _tileObject) {
         tileId = _tileId;
         location = _location;
 
@@ -38,10 +38,14 @@ public class TileInfo {
 
     // This if only for setting spawned to false. ew so inefficient
     public TileInfo(bool _spawned) {
-        tileId = "Null";
+        tileId = Tiles.Null;
         location = new Vector2Int(-999999999, -999999999);
+
+        y = 0;
         parentObject = null;
         tileObject = null;
+
+        tile = null;
         spawned = _spawned;
     }
 }
@@ -87,10 +91,6 @@ public class TileManagement : MonoBehaviour {
         StartCoroutine(DestroyTiles(tileLocs));
 
         ApplyTileRules();
-    }
-
-    void Update() {
-        
     }
 
     #endregion
@@ -153,13 +153,13 @@ public class TileManagement : MonoBehaviour {
         Destroy(tiles[_location].TileObject); // Delete tile's parentObject
         Destroy(tiles[_location].ParentObject); // Delete tileObject
         tiles[_location].Spawned = false; // Just some extra checks for the TileRule
-        tiles[_location].TileId = "Null"; // Just some extra checks for the TileRule
+        tiles[_location].TileId = Tiles.Null; // Just some extra checks for the TileRule
         tiles.Remove(_location); // Remove tileStruct from tile structs list (memory leak???, do i need to destroy the struct (class now actually)???, I hope c# handles it)
 
         ApplyTileRulesOnAdjacentTiles(_location);
     }
 
-    public TileInfo GetTile(Vector2Int _loc) {
+    public TileInfo GetTileAtLocation(Vector2Int _loc) {
         // If there is a tile at the location, return it
         if (tiles.ContainsKey(_loc))
             return tiles[_loc];
@@ -168,10 +168,6 @@ public class TileManagement : MonoBehaviour {
         //Debug.LogWarning("Could not find file at location: " + _loc);
         return new TileInfo(false);
     }
-
-    #endregion
-
-    #region Utils
 
     // Returns all Tile Locations around Center Tile in Radius
     // Does not Return Center Tile Location, does not Return Tile Locations without a Tile
