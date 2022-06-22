@@ -2,47 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// This is a class and not a struct so it can be used as a reference in UI code
-public class Resource {
-    [SerializeField] private string resourceId;
-    [Space]
-    [SerializeField] private float supply;
-    [SerializeField] private float demand;
-    [Space]
-    [Tooltip("This is set by the Resource Info Scriptable Object for this resource. This value inputed here is overriden.")]
-    [SerializeField] private float tickTime;
-
-    public string ResourceId { get => resourceId; set => resourceId = value; }
-    public float Supply { get => supply; set => supply = value; }
-    public float Demand { get => demand; set => demand = value; }
-    public float TickTime { get => tickTime; set => tickTime = value; }
-
-    public Resource(float _supply, float _demand) {
-        supply = _supply;
-        demand = _demand;
-    }
-
-    public Resource() {
-        supply = 0;
-        demand = 0;
-    }
-}
-
-public class ResourceManager : MonoBehaviour {
+public class ResourceManagement : MonoBehaviour {
     #region Varibles
+
+    public static ResourceManagement instance;
 
     [Header("Resources")]
     [SerializeField] private Resource[] resources;
     [Space]
-    [Tooltip("Resource Infos must be in the same order as the resources")]
-    [SerializeField] private ResourceInfo[] resourceInfos;
-    [Space]
-    [Tooltip("Period of time between demand changing resource supply.")]
+    [Tooltip("Period of time between changes to resource supply by demand.")]
     [SerializeField] private float tickTime;
 
     // Resouces are grouped by their tick time
     // First element in value list is reserved for the number of times the tick has been done, This is used in TickUpdate()
-    private Dictionary<float, List<int>> resourceTicks;
+    private Dictionary<float, List<int>> resourceTicks = new Dictionary<float, List<int>>();
 
     private List<ResourceEntry> resourceEntries = new List<ResourceEntry>();
     private List<int> availableResourceEntryIndex = new List<int>() { 0 }; // Which resource entry index should be used to insert new entry
@@ -54,6 +27,7 @@ public class ResourceManager : MonoBehaviour {
     #region Core
 
     private void Awake() {
+        Singleton();
         ConfigureResources();
     }
 
@@ -66,22 +40,35 @@ public class ResourceManager : MonoBehaviour {
     #region Core Utils
 
     // Called in Awake
+    private void Singleton() {
+        if (FindObjectsOfType<TileManagement>().Length > 1) {
+            Destroy(this);
+        } else {
+            instance = this;
+        }
+    }
+
+    // Called in Awake
     private void ConfigureResources() {
         // Loop through resources and set custom Tick Time.
         for (int i = 0; i < resources.Length; i++) {
+            // Reset supply and demand, because it is a Scriptable Object these are saved
+            resources[i].Supply = 0;
+            resources[i].Demand = 0;
+
             // Set TickTime to standard tickTime
-            if (resourceInfos[i].CustomTickTime == 0)
-                resources[i].TickTime = tickTime;
-            // Set TickTime to custom tick time
-            else
-                resources[i].TickTime = resourceInfos[i].CustomTickTime;
+            if (resources[i].CustomTickTime == 0)
+                resources[i].CustomTickTime = tickTime;
 
             // If resourceTick already contains specified tickTime, add the index of the current resource to
-            if (resourceTicks.ContainsKey(resources[i].TickTime))
-                resourceTicks[(resources[i].TickTime)].Add(i);
-            // Create new resourceTick and allocate first index for ticksPerformed and second for resource index
-            else
-                resourceTicks.Add(resources[i].TickTime, new List<int>() { 0, i });
+            if (resourceTicks.ContainsKey(resources[i].CustomTickTime)) {
+                resourceTicks[resources[i].CustomTickTime].Add(i);
+            } else {
+                // Create new resourceTick and allocate first index for ticksPerformed and second for resource index
+                resourceTicks.Add(resources[i].CustomTickTime, new List<int>() { 0, i });
+                Debug.Log("New Resource Tick");
+            }
+                
         }
     }
 
@@ -97,11 +84,12 @@ public class ResourceManager : MonoBehaviour {
 
             // Run the resource tick the amount of times the tickTime can fit into the deltaTimeDifference
             // This is neccessary because the tickTime might be smaller than deltaTimeDifference, eg. lots of lag or tiny resourceTick
-            for (int x = 0; x < Mathf.FloorToInt(deltaTimeDifference % resourceTick.Value[0]); x++) {
+            for (int x = 0; x < Mathf.FloorToInt(deltaTimeDifference % resourceTick.Key); x++) {
                 resourceTick.Value[0]++; // Increase ticks performed by 1
 
                 // Loop through resources that should be updated on this tick
-                for (int i = 0; i < resourceTick.Value.Count; i++) {
+                // This starts one 1 because the 0th value is the number of times the tick update has occured
+                for (int i = 1; i < resourceTick.Value.Count; i++) {
                     UpdateResourceTick(resourceTick.Value[i]); // Update Resource
                 }
             }
@@ -112,7 +100,7 @@ public class ResourceManager : MonoBehaviour {
 
     #region Resources
 
-    public Resource GetResource(string _resourceId) {
+    public Resource GetResource(Resources _resourceId) {
         // Loop through resources and find resource that matches parameter id
         for (int i = 0; i < resources.Length; i++) {
             if (resources[i].ResourceId == _resourceId)
@@ -129,7 +117,7 @@ public class ResourceManager : MonoBehaviour {
         resources[_resourceIndex].Supply -= resources[_resourceIndex].Demand;
     }
 
-    private int AddResourceEntry(ResourceEntry _resourceEntry) {
+    public int AddResourceEntry(ResourceEntry _resourceEntry) {
         if (_resourceEntry.ChangeOnTick) {
             int index = availableResourceEntryIndex[0]; // Get index to insert at
             resourceEntries.Insert(index, _resourceEntry); // Insert Resource Entry at index
@@ -152,7 +140,7 @@ public class ResourceManager : MonoBehaviour {
         }
     }
 
-    private void RemoveResourceEntry(int _index) {
+    public void RemoveResourceEntry(int _index) {
         Resource resource = GetResource(resourceEntries[_index].ResourceId); // Get Resource this entry modifies
         resource.Demand -= resourceEntries[_index].Change; // Subtract change to demand, reverse what was done in AddResourceEntry
 
