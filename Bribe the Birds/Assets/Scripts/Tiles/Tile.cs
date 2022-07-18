@@ -7,17 +7,25 @@ public class Tile : MonoBehaviour {
     [Header("User Specified")]
     [Tooltip("These variables should only be used for initialization of tileInfo")]
     [SerializeField] private Tiles tileId;
+    [Space]
     [Tooltip("These variables should only be used for initialization of tileInfo")]
     [SerializeField] private GameObject tileObject;
-
-    [Header("Tile")]
+    [Space]
     [SerializeField] private TileRule[] tileRules;
+
+    [Header("Resources & Structures")]
+    [Tooltip("The structures that are on this tile")]
+    [SerializeField] private List<Structure> structures;
+    [Tooltip("Resource Modifiers that will be applied to all buildings on this tile.")]
+    [SerializeField] private ResourceModifier[] resourceModifiers;
 
     private TileInfo tileInfo;
 
     public Tiles TileId { get => tileId; set => tileId = value; }
     public GameObject TileObject { get => tileObject; set => tileObject = value; }
     public TileInfo TileInfo { get => tileInfo; set => tileInfo = value; }
+    public List<Structure> Structures { get => structures; set => structures = value; }
+    public ResourceModifier[] ResourceModifiers { get => resourceModifiers; set => resourceModifiers = value; }
 
     void Start() {
         
@@ -39,6 +47,13 @@ public class Tile : MonoBehaviour {
                 tileInfo.TileObject = Instantiate(tileRules[i].UpdatedTilePrefab, TileManagement.instance.TileLocationToWorldPosition(TileInfo.Location, 0), Quaternion.identity, tileInfo.ParentObject.transform);
                 // Spawn new tile object at same position and set parent to tile's parent object
             }
+        }
+    }
+
+    // This function updates the resource modifiers on the structures on this tile
+    public void UpdateResourceModifiers() {
+        for (int i = 0; i < structures.Count; i++) {
+            structures[i].UpdateResourceModifiers();
         }
     }
 }

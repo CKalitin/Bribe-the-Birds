@@ -10,9 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9147c6abf817d9846b799d760ebf9c3b, type: 3}
-  m_Name: Example Tile Rule
+  m_Name: Rule-Tree
   m_EditorClassIdentifier: 
   intendedTileId: 1
   updatedTilePrefab: {fileID: 7990874908333213013, guid: c26280d85818ead42a80922148f374ec, type: 3}
   requiredAdjacentTileIds: 000000000000000000000000000000000000000001000000
-  requiredAdjacentTileIDs: []

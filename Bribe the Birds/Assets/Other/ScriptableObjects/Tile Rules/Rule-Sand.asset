@@ -9,13 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61108b173f876e14c9a70fdd023ead54, type: 3}
-  m_Name: ResourceIds
+  m_Script: {fileID: 11500000, guid: 9147c6abf817d9846b799d760ebf9c3b, type: 3}
+  m_Name: Rule-Sand
   m_EditorClassIdentifier: 
-  resourceIds:
-  - Gold
-  resourceEntryIds:
-  - Upkeep
-  resourceEnumPath: Assets/Other/Enums/
-  resourceEnumName: GameResources
-  resourceEntryEnumName: ResourceEntries
+  intendedTileId: 1
+  updatedTilePrefab: {fileID: 8978106404787804265, guid: 50398d04e6ce27d49bf37d906524662e, type: 3}
+  requiredAdjacentTileIds: 010000000000000000000000000000000000000000000000

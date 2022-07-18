@@ -9,13 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61108b173f876e14c9a70fdd023ead54, type: 3}
-  m_Name: ResourceIds
+  m_Script: {fileID: 11500000, guid: f7a6d0b19433ceb4181e65e0766ab6cc, type: 3}
+  m_Name: Tree Upgrade
   m_EditorClassIdentifier: 
-  resourceIds:
-  - Gold
-  resourceEntryIds:
-  - Upkeep
-  resourceEnumPath: Assets/Other/Enums/
-  resourceEnumName: GameResources
-  resourceEntryEnumName: ResourceEntries
+  resourceEntries:
+  - {fileID: 11400000, guid: bd0ae44eaf5dcd049a4c155bf4910243, type: 2}
+  cost: 00000000

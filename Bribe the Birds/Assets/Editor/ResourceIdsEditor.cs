@@ -59,6 +59,15 @@ public class ResourceIdsEditor : Editor {
             "The Resource Enum Path is the path where the enum script will be stored.\n" +
             "Resource Enum Name is a custom name for the enums instead of \"Resources\", So you would do \"(Resource Enum Name).(Resource Name)\" instead of what's mentioned above.";
 
+        string helpMessage2 =
+            "Resource Entry Ids are Ids for specific things that take resource.\n" +
+            "Eg. if a building needs money to upkeep it that resource entry Id would be called \"Upkeep\".\n" +
+            "This feature is used by Resource Modifiers to only increase costs for specific resource entries, not every resource entry that uses money for example.";
+
         GUILayout.TextArea(helpMessage, helpBoxStyle);
+
+        VerticalBreak();
+
+        GUILayout.TextArea(helpMessage2, helpBoxStyle);
     }
 }

@@ -16,7 +16,6 @@ public class TileRule : ScriptableObject {
     public Tiles IntendedTileId { get => intendedTileId; set => intendedTileId = value; }
     public GameObject UpdatedTilePrefab { get => updatedTilePrefab; set => updatedTilePrefab = value; }
     public Tiles[] RequiredAdjacentTiles { get => requiredAdjacentTileIds; set => requiredAdjacentTileIds = value; }
-    [SerializeField] private string[] requiredAdjacentTileIDs;
 
     // Return true is updatedTilePrefab should be used
     public bool CheckTileRule(List<Vector2Int> _adjacentTileLocs) {

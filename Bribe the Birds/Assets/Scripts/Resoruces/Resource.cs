@@ -4,9 +4,8 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName ="Resource", menuName = "Scriptable Objects/Resources/Resource")]
 public class Resource : ScriptableObject {
-    [SerializeField] private Resources resourceId;
+    [SerializeField] private GameResources resourceId;
     [SerializeField] private ResourceInfo resourceInfo;
-    [Space]
     [Tooltip("This variable is used by the Resource Management script. It is only Serialize Field so you can see it. If you make changes to it before runtime they will not be used.")]
     [SerializeField] private float supply;
     [Tooltip("This variable is used by the Resource Management script. It is only Serialize Field so you can see it. If you make changes to it before runtime they will not be used.")]
@@ -15,7 +14,7 @@ public class Resource : ScriptableObject {
     [Tooltip("Leave as 0 to use standard Resource Manager tick time.")]
     [SerializeField] private float customTickTime;
 
-    public Resources ResourceId { get => resourceId; set => resourceId = value; }
+    public GameResources ResourceId { get => resourceId; set => resourceId = value; }
     public ResourceInfo ResourceInfo { get => resourceInfo; set => resourceInfo = value; }
     public float Supply { get => supply; set => supply = value; }
     public float Demand { get => demand; set => demand = value; }

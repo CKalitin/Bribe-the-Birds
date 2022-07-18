@@ -17,9 +17,8 @@ public class ResourceManagement : MonoBehaviour {
     // First element in value list is reserved for the number of times the tick has been done, This is used in TickUpdate()
     private Dictionary<float, List<int>> resourceTicks = new Dictionary<float, List<int>>();
 
-    private List<ResourceEntry> resourceEntries = new List<ResourceEntry>();
-    private List<int> availableResourceEntryIndex = new List<int>() { 0 }; // Which resource entry index should be used to insert new entry
-
+    private RBHKUtils.IndexList<ResourceEntry> resourceEntries = new RBHKUtils.IndexList<ResourceEntry>();
+    
     private float totalDeltaTime = 0;
 
     #endregion
@@ -99,7 +98,7 @@ public class ResourceManagement : MonoBehaviour {
 
     #region Resources
 
-    public Resource GetResource(Resources _resourceId) {
+    public Resource GetResource(GameResources _resourceId) {
         // Loop through resources and find resource that matches parameter id
         for (int i = 0; i < resources.Length; i++) {
             if (resources[i].ResourceId == _resourceId)
@@ -113,17 +112,12 @@ public class ResourceManagement : MonoBehaviour {
 
     private void UpdateResourceTick(int _resourceIndex) {
         // Change supply by demand
-        resources[_resourceIndex].Supply -= resources[_resourceIndex].Demand;
+        resources[_resourceIndex].Supply += resources[_resourceIndex].Demand;
     }
 
     public int AddResourceEntry(ResourceEntry _resourceEntry) {
         if (_resourceEntry.ChangeOnTick) {
-            int index = availableResourceEntryIndex[0]; // Get index to insert at
-            resourceEntries.Insert(index, _resourceEntry); // Insert Resource Entry at index
-
-            // If there are no availableResourceEntryIndexes left, add a new one at the end of the list
-            if (availableResourceEntryIndex.Count <= 0)
-                availableResourceEntryIndex.Add(resourceEntries.Count);
+            int index = resourceEntries.Add(_resourceEntry);
 
             Resource resource = GetResource(_resourceEntry.ResourceId); // Get Resource this entry modifies
             resource.Demand += _resourceEntry.Change; // Add change to demand
@@ -140,11 +134,11 @@ public class ResourceManagement : MonoBehaviour {
     }
 
     public void RemoveResourceEntry(int _index) {
-        Resource resource = GetResource(resourceEntries[_index].ResourceId); // Get Resource this entry modifies
-        resource.Demand -= resourceEntries[_index].Change; // Subtract change to demand, reverse what was done in AddResourceEntry
+        Resource resource = GetResource(resourceEntries.GetElement(_index).ResourceId); // Get Resource this entry modifies
+        resource.Demand -= resourceEntries.GetElement(_index).Change; // Subtract change to demand, reverse what was done in AddResourceEntry
 
         // Add index to indexes that are free to use
-        availableResourceEntryIndex.Add(_index);
+        resourceEntries.Remove(_index);
     }
 
     #endregion

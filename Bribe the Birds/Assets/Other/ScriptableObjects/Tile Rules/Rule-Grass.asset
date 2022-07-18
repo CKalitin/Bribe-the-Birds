@@ -10,9 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9147c6abf817d9846b799d760ebf9c3b, type: 3}
-  m_Name: Example Tile Rule 1
+  m_Name: Rule-Grass
   m_EditorClassIdentifier: 
   intendedTileId: 1
-  updatedTilePrefab: {fileID: 8978106404787804265, guid: 50398d04e6ce27d49bf37d906524662e, type: 3}
-  requiredAdjacentTileIds: 010000000000000000000000000000000000000000000000
-  requiredAdjacentTileIDs: []
+  updatedTilePrefab: {fileID: 7990874908333213013, guid: 04c03cc41aca8e34bb56c9db95c8f556, type: 3}
+  requiredAdjacentTileIds: 000000000000000000000000000000000000000001000000

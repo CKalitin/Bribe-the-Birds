@@ -91,6 +91,8 @@ public class TileManagement : MonoBehaviour {
         StartCoroutine(DestroyTiles(tileLocs));
 
         ApplyTileRules();
+
+        ApplyResourceModifiersOnAllTiles();
     }
 
     #endregion
@@ -104,13 +106,6 @@ public class TileManagement : MonoBehaviour {
                 // Update location text on spawned tile
                 tiles[tileLoc].ParentObject.transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = $"({x}, {y})" + $"\n{tiles[tileLoc].ParentObject.transform.position}";
             }
-        }
-    }
-
-    private void ApplyTileRules() {
-        // Apply tile rules on all tiles, after they are done generating
-        foreach (KeyValuePair<Vector2Int, TileInfo> kvp in tiles) {
-            kvp.Value.Tile.ApplyTileRules();
         }
     }
 
@@ -218,7 +213,34 @@ public class TileManagement : MonoBehaviour {
         // Loop through neighbour tiles and apply tile rules
         for (int i = 0; i < adjacentTileLocs.Count; i++) {
             tiles[adjacentTileLocs[i]].Tile.ApplyTileRules();
-        } 
+        }
+    }
+
+    public void ApplyTileRules() {
+        // Apply tile rules on all tiles, after they are done generating
+        foreach (KeyValuePair<Vector2Int, TileInfo> kvp in tiles) {
+            kvp.Value.Tile.ApplyTileRules();
+        }
+    }
+
+    #endregion
+
+    #region Other
+
+    public void ApplyResourceModifiersOnAllTiles() {
+        ResourceModifierApplier[] appliers = FindObjectsOfType<ResourceModifierApplier>();
+
+        for (int i = 0; i < appliers.Length; i++) {
+            appliers[i].ApplyResourceModifiers();
+        }
+    }
+
+    public void ResetAllResourceEntries() {
+        Structure[] structures = FindObjectsOfType<Structure>();
+
+        for (int i = 0; i < structures.Length; i++) {
+            structures[i].ResetResourceEntries();
+        }
     }
 
     #endregion

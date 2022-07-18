@@ -14,7 +14,7 @@ public class TileIds : ScriptableObject {
 
     // This is used in the custom inspector / editor script
     public void UpdateEnums() {
-        string filePathAndName = tileEnumPath + tileEnumName + ".cs"; //The folder where the enum script is expected to exist
+        string filePathAndName = tileEnumPath + "RBHKTileEnums" + ".cs"; //The folder where the enum script is expected to exist
 
         using (StreamWriter streamWriter = new StreamWriter(filePathAndName)) {
             // Put the damned bracket on the right line
