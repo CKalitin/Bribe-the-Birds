@@ -11,11 +11,9 @@ public class RBHKUtils {
         private List<int> usedIndexes = new List<int>() { };
 
         // Return used indexes in list
-        // Some of the values here would not be used
-        public List<T> Value { get => GetSome(); }
+        // Some of the values here would not be used - fixed this with usedIndexes
+        public List<T> Values { get => GetSome(); }
 
-        // Values may be null so / available index so this is neccessary
-        // The +1 is used because the availableIndexes list should always have 1 element
         // What does => do anyway?
         public int Count => usedIndexes.Count;
 
@@ -51,6 +49,14 @@ public class RBHKUtils {
             }
 
             return output;
+        }
+
+        // Indexer - this makes accessing variables like "listname[index]" work
+        public T this[int _index] {
+            // get indexer allows square brackets to read data - ctrlp'ed
+            get => list[_index];
+            // set indexer allows square brackets to change data - ctrlp'ed
+            set => list[_index] = value;
         }
     }
 }

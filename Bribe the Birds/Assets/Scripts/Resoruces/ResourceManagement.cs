@@ -134,8 +134,8 @@ public class ResourceManagement : MonoBehaviour {
     }
 
     public void RemoveResourceEntry(int _index) {
-        Resource resource = GetResource(resourceEntries.GetElement(_index).ResourceId); // Get Resource this entry modifies
-        resource.Demand -= resourceEntries.GetElement(_index).Change; // Subtract change to demand, reverse what was done in AddResourceEntry
+        Resource resource = GetResource(resourceEntries[_index].ResourceId); // Get Resource this entry modifies
+        resource.Demand -= resourceEntries[_index].Change; // Subtract change to demand, reverse what was done in AddResourceEntry
 
         // Add index to indexes that are free to use
         resourceEntries.Remove(_index);

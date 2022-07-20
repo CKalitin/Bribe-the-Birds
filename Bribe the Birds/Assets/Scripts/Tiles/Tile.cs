@@ -7,25 +7,24 @@ public class Tile : MonoBehaviour {
     [Header("User Specified")]
     [Tooltip("These variables should only be used for initialization of tileInfo")]
     [SerializeField] private Tiles tileId;
-    [Space]
-    [Tooltip("These variables should only be used for initialization of tileInfo")]
-    [SerializeField] private GameObject tileObject;
+    [Tooltip("These variables should only be used for initialization of tileInfo.\nThis field is empty/'missing' after Start().")]
+    [SerializeField] private GameObject defaultTileObject;
     [Space]
     [SerializeField] private TileRule[] tileRules;
 
     [Header("Resources & Structures")]
-    [Tooltip("The structures that are on this tile")]
-    [SerializeField] private List<Structure> structures;
-    [Tooltip("Resource Modifiers that will be applied to all buildings on this tile.")]
-    [SerializeField] private ResourceModifier[] resourceModifiers;
+    [Tooltip("DEBUG FIELD DON'T CHANGE VALUES\nThe structures that are on this tile")]
+    [SerializeField] private List<Structure> structures = new List<Structure>();
+    [Tooltip("DEBUG FIELD DON'T CHANGE VALUES\nResource Modifiers that will be applied to all buildings on this tile.")]
+    [SerializeField] private RBHKUtils.IndexList<ResourceModifier> resourceModifiers = new RBHKUtils.IndexList<ResourceModifier>();
 
     private TileInfo tileInfo;
 
     public Tiles TileId { get => tileId; set => tileId = value; }
-    public GameObject TileObject { get => tileObject; set => tileObject = value; }
+    public GameObject DefaultTileObject { get => defaultTileObject; set => defaultTileObject = value; }
     public TileInfo TileInfo { get => tileInfo; set => tileInfo = value; }
     public List<Structure> Structures { get => structures; set => structures = value; }
-    public ResourceModifier[] ResourceModifiers { get => resourceModifiers; set => resourceModifiers = value; }
+    public RBHKUtils.IndexList<ResourceModifier> ResourceModifiers { get => resourceModifiers; set => resourceModifiers = value; }
 
     void Start() {
         
@@ -44,8 +43,8 @@ public class Tile : MonoBehaviour {
             if (tileRules[i].CheckTileRule(adjacentTiles)) {
                 Destroy(tileInfo.TileObject); // Destroy old tile object
 
-                tileInfo.TileObject = Instantiate(tileRules[i].UpdatedTilePrefab, TileManagement.instance.TileLocationToWorldPosition(TileInfo.Location, 0), Quaternion.identity, tileInfo.ParentObject.transform);
                 // Spawn new tile object at same position and set parent to tile's parent object
+                tileInfo.TileObject = Instantiate(tileRules[i].UpdatedTilePrefab, TileManagement.instance.TileLocationToWorldPosition(TileInfo.Location, 0), Quaternion.identity, tileInfo.ParentObject.transform);
             }
         }
     }

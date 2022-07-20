@@ -15,9 +15,9 @@ public class StructureUpgrade : ScriptableObject {
     [System.Serializable]
     public struct StructureUpgradeCost {
         [SerializeField] private GameResources resource;
-        [SerializeField] private int amount;
+        [SerializeField] private float amount;
 
         public GameResources Resource { get => resource; set => resource = value; }
-        public int Amount { get => amount; set => amount = value; }
+        public float Amount { get => amount; set => amount = value; }
     }
 }
