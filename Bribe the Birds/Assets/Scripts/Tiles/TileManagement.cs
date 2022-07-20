@@ -61,9 +61,17 @@ public class TileManagement : MonoBehaviour {
 
     [SerializeField] private GameObject tilePrefab;
 
+    [Tooltip("This is used in the Structure script so they don't update all ResourceModifiers when they're spawned at first")]
+    public bool spawningComplete = false;
+
     [Header("Specify")]
     [Tooltip("Tile Dimensions")]
     [SerializeField] private Vector2 tileDim = new Vector2(4.25f, 5f); // Tile dimensions
+
+    [Header("Debug")]
+    public List<string> stackTraces = new List<string>();
+
+    public bool SpawningComplete { get => spawningComplete; set => spawningComplete = value; }
 
     #endregion
 
@@ -82,17 +90,17 @@ public class TileManagement : MonoBehaviour {
     }
 
     void Start() {
+        PlayerPrefs.SetInt("bool", 0);
+        PlayerPrefs.SetInt("iters", 0);
+
         GenerateTiles();
 
         ApplyTileRules();
 
         List<Vector2Int> tileLocs = GetAdjacentTilesInRadius(new Vector2Int(12, 12), 3);
         tileLocs.AddRange(GetAdjacentTilesInRadius(new Vector2Int(7, 7), 4));
-        StartCoroutine(DestroyTiles(tileLocs));
-
-        ApplyTileRules();
-
-        ApplyResourceModifiersOnAllTiles();
+        //StartCoroutine(DestroyTilesDelayed(tileLocs));
+        DestroyTiles(tileLocs);
     }
 
     #endregion
@@ -103,23 +111,55 @@ public class TileManagement : MonoBehaviour {
         for (int x = 0; x < 21; x++) {
             for (int y = 0; y < 21; y++) {
                 Vector2Int tileLoc = SpawnTile(tilePrefab, new Vector2Int(x, y));
-                // Update location text on spawned tile
-                tiles[tileLoc].ParentObject.transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = $"({x}, {y})" + $"\n{tiles[tileLoc].ParentObject.transform.position}";
             }
         }
     }
 
-    private IEnumerator DestroyTiles(List<Vector2Int> tileLocs) {
-        float waitTime = 0.05f;
+    private void DestroyTiles(List<Vector2Int> tileLocs) {
+        float timer = Time.realtimeSinceStartup;
+
+        for (int i = 0; i < tileLocs.Count; i++) {
+            DestroyTile(tileLocs[i]);
+        }
+        Debug.Log("Destruction Complete: " + (Time.realtimeSinceStartup - timer) + ",                                          " + (timer = Time.realtimeSinceStartup));
+
+        // NECCESSARY TILE SPAWNING STUFF COPY THIS TO FINAL TILE GENERATION CODE (IN THIS ORDER)
+        spawningComplete = true;
+        ApplyTileRules();
+        Debug.Log("Tile Rules Applied: " + (Time.realtimeSinceStartup - timer) + ",                                            " + (timer = Time.realtimeSinceStartup));
+        ApplyResourceModifiersOnAllTiles();
+        // NECCESSARY TILE SPAWNING STUFF COPY THIS TO FINAL TILE GENERATION CODE (IN THIS ORDER)
+
+        Debug.Log("RM Applied: " + (Time.realtimeSinceStartup - timer) + ",                                                    " + (timer = Time.realtimeSinceStartup));
+
+        Debug.Log("iterations: " + PlayerPrefs.GetInt("iters"));
+    }
+
+    private IEnumerator DestroyTilesDelayed(List<Vector2Int> tileLocs) {
+        float waitTime = 0;// .025f;
 
         //yield return new WaitForSeconds(2);
+        Debug.Log(Time.realtimeSinceStartup);
 
         for (int i = 0; i < tileLocs.Count; i++) {
             yield return new WaitForSeconds(waitTime);
             DestroyTile(tileLocs[i]);
         }
+        Debug.Log(Time.realtimeSinceStartup);
 
-        yield return new WaitForSeconds(0.1f);
+        //yield return new WaitForSeconds(0.1f);
+
+        // NECCESSARY TILE SPAWNING STUFF COPY THIS TO FINAL TILE GENERATION CODE (IN THIS ORDER)
+        Debug.Log(Time.realtimeSinceStartup);
+        spawningComplete = true;
+        Debug.Log(Time.realtimeSinceStartup);
+        ApplyTileRules();
+        Debug.Log(Time.realtimeSinceStartup);
+        ApplyResourceModifiersOnAllTiles();
+        Debug.Log(Time.realtimeSinceStartup);
+        // NECCESSARY TILE SPAWNING STUFF COPY THIS TO FINAL TILE GENERATION CODE (IN THIS ORDER)
+
+        Debug.Log("iterations: " + PlayerPrefs.GetInt("iters"));
     }
 
     #endregion
@@ -131,7 +171,7 @@ public class TileManagement : MonoBehaviour {
         // If tile already exists in location, return
 
         GameObject tileObject = Instantiate(_tilePrefab, TileLocationToWorldPosition(_location, 0), Quaternion.identity); // Instantiate Tile Prefab
-        tiles.Add(_location, new TileInfo(tileObject.GetComponent<Tile>().TileId, _location, tileObject.transform.position.y, tileObject, tileObject.GetComponent<Tile>().TileObject));
+        tiles.Add(_location, new TileInfo(tileObject.GetComponent<Tile>().TileId, _location, tileObject.transform.position.y, tileObject, tileObject.GetComponent<Tile>().DefaultTileObject));
         // Create a TileInfo class and add it to the tiles dictionary
         tileObject.GetComponent<Tile>().TileInfo = tiles[_location]; // Set TileInfo reference on Tile Script on Tile Object
 
@@ -229,7 +269,7 @@ public class TileManagement : MonoBehaviour {
 
     public void ApplyResourceModifiersOnAllTiles() {
         ResourceModifierApplier[] appliers = FindObjectsOfType<ResourceModifierApplier>();
-
+        Debug.Log(appliers.Length);
         for (int i = 0; i < appliers.Length; i++) {
             appliers[i].ApplyResourceModifiers();
         }
@@ -239,7 +279,7 @@ public class TileManagement : MonoBehaviour {
         Structure[] structures = FindObjectsOfType<Structure>();
 
         for (int i = 0; i < structures.Length; i++) {
-            structures[i].ResetResourceEntries();
+            structures[i].InitializeResourceEntries();
         }
     }
 

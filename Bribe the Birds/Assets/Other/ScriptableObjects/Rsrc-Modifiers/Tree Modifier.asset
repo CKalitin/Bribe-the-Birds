@@ -9,11 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c9231b8e7b10ed4e9c54675259d8c9e, type: 3}
-  m_Name: R-Gold
+  m_Script: {fileID: 11500000, guid: f53de629b1aae2f4a9c01de3648d50c8, type: 3}
+  m_Name: Tree Modifier
   m_EditorClassIdentifier: 
-  resourceId: 0
-  resourceInfo: {fileID: 11400000, guid: e53c592d81536f64288d073b9a910b5d, type: 2}
-  supply: 0
-  demand: 0
-  customTickTime: 3
+  resourceIdTarget: 0
+  resourceEntryIdTarget: 0
+  change: 0
+  percentageChange: 1.5

@@ -9,6 +9,10 @@ public class StructureUpgradeEditor : Editor {
     float verticalBreakSize;
     float horizontalBreakSize;
 
+    // Resource Entry Display vars
+    SerializedObject so;
+    SerializedProperty resourceEntriesProperty;
+
     // Array management variables
     float amHeight;
     float amLabelWidth;
@@ -28,6 +32,10 @@ public class StructureUpgradeEditor : Editor {
     private void OnEnable() {
         structureUpgrade = (StructureUpgrade)target; // Get ResourceIds script which is the target
         targetListSize = structureUpgrade.Cost.Length;
+
+        so = new SerializedObject(structureUpgrade);
+        resourceEntriesProperty = so.FindProperty("resourceEntries");
+
     }
 
     public override void OnInspectorGUI() {
@@ -49,28 +57,41 @@ public class StructureUpgradeEditor : Editor {
         aeVerticalBreakSize = Screen.height * 0.003f;
 
         aeLabelWidth = Screen.width * 0.05f;
-        aeCostTypeWidth = Screen.width * 0.45f;
-        aeCostAmountWidth = Screen.width * 0.35f;
+        aeCostTypeWidth = Screen.width * 0.5f;
+        aeCostAmountWidth = Screen.width * 0.4f;
 
         #endregion
 
         VerticalBreak(verticalBreakSize);
-        ArrayLengthField();
+        ResourceEntriesField();
         VerticalBreak(verticalBreakSize);
-        for (int i = 0; i < structureUpgrade.Cost.Length; i++) {
-            DisplayArrayElement(i);
+        ArrayLengthField();
+        try {
+            VerticalBreak(verticalBreakSize);
+            for (int i = 0; i < structureUpgrade.Cost.Length; i++) {
+                DisplayArrayElement(i);
 
-            VerticalBreak(aeVerticalBreakSize);
+                VerticalBreak(aeVerticalBreakSize);
+            }
+        } catch {
+            // To prevent error:
+            // ArgumentException: Getting control 5's position in a group with only 5 controls when doing repaint
+            // Aborting
         }
 
         // This is so the Scriptable Objects save when Unity closes
         EditorUtility.SetDirty(target);
     }
 
+    private void ResourceEntriesField() {
+        EditorGUILayout.PropertyField(resourceEntriesProperty, true); // True means show children
+        so.ApplyModifiedProperties(); // Remember to apply modified properties
+    }
+
     private void ArrayLengthField() {
         EditorGUILayout.BeginHorizontal();
 
-        EditorGUILayout.LabelField("Resource Costs", amLabelStyle, GUILayout.Width(amLabelWidth), GUILayout.Height(amHeight));
+        EditorGUILayout.LabelField("Upgrade Cost", amLabelStyle, GUILayout.Width(amLabelWidth), GUILayout.Height(amHeight));
         GUI.SetNextControlName("ArrayLengthField"); // This line means GetNameOfFocusedControl() returns "ArrayLengthField" when this box is selected
         targetListSize = EditorGUILayout.IntField(targetListSize, GUILayout.Width(amFieldWidth), GUILayout.Height(amHeight));
 
@@ -94,13 +115,9 @@ public class StructureUpgradeEditor : Editor {
         // Begin horizontal line of elements
         EditorGUILayout.BeginHorizontal();
 
-        //GUILayout.Label("", GUILayout.Width(horizontalBreakSize)); // This is a break
-        EditorGUILayout.LabelField(_index.ToString(), GUILayout.Width(aeLabelWidth), GUILayout.Height(aeHeight));
-        //GUILayout.Label("", GUILayout.Width(horizontalBreakSize)); // This is a break
+        //EditorGUILayout.LabelField(_index.ToString(), GUILayout.Width(aeLabelWidth), GUILayout.Height(aeHeight));
         structureUpgrade.Cost[_index].Resource = (GameResources)EditorGUILayout.EnumPopup(structureUpgrade.Cost[_index].Resource, GUILayout.Width(aeCostTypeWidth), GUILayout.Height(aeHeight));
-        //GUILayout.Label("", GUILayout.Width(horizontalBreakSize)); // This is a break
         structureUpgrade.Cost[_index].Amount = EditorGUILayout.IntField(structureUpgrade.Cost[_index].Amount, GUILayout.Width(aeCostAmountWidth), GUILayout.Height(aeHeight));
-        //GUILayout.Label("", GUILayout.Width(horizontalBreakSize)); // This is a break
 
         // End horizontal line of elements
         EditorGUILayout.EndHorizontal();
@@ -111,5 +128,4 @@ public class StructureUpgradeEditor : Editor {
         GUILayout.Label("", GUILayout.Height(_height)); // This is a break
         EditorGUILayout.EndHorizontal();
     }
-
 }
