@@ -90,6 +90,9 @@ public class TileManagement : MonoBehaviour {
     }
 
     void Start() {
+        PlayerPrefs.SetInt("bool", 0);
+        PlayerPrefs.SetInt("iters", 0);
+
         GenerateTiles();
 
         ApplyTileRules();
@@ -127,27 +130,19 @@ public class TileManagement : MonoBehaviour {
         float waitTime = 0;// .025f;
 
         //yield return new WaitForSeconds(2);
-        Debug.Log(Time.realtimeSinceStartup);
 
         for (int i = 0; i < tileLocs.Count; i++) {
             yield return new WaitForSeconds(waitTime);
             DestroyTile(tileLocs[i]);
         }
-        Debug.Log(Time.realtimeSinceStartup);
 
         //yield return new WaitForSeconds(0.1f);
 
         // NECCESSARY TILE SPAWNING STUFF COPY THIS TO FINAL TILE GENERATION CODE (IN THIS ORDER)
-        Debug.Log(Time.realtimeSinceStartup);
         spawningComplete = true;
-        Debug.Log(Time.realtimeSinceStartup);
         ApplyTileRules();
-        Debug.Log(Time.realtimeSinceStartup);
         ApplyResourceModifiersOnAllTiles();
-        Debug.Log(Time.realtimeSinceStartup);
         // NECCESSARY TILE SPAWNING STUFF COPY THIS TO FINAL TILE GENERATION CODE (IN THIS ORDER)
-
-        Debug.Log("iterations: " + PlayerPrefs.GetInt("iters"));
     }
 
     #endregion

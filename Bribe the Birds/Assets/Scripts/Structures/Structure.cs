@@ -113,6 +113,15 @@ public class Structure : MonoBehaviour {
         resourceEntries = upgrades[upgradeIndex].ResourceEntries;
     }
 
+    // This is public because it's used by TileManagement
+    public void InitializeResourceEntries() {
+        resourceEntries = upgrades[upgradeIndex].ResourceEntries;
+    }
+
+    #endregion
+
+    #region Resource Modifiers
+
     // This function creates copies of the ResourceEntry Scriptable Objects so they don't affect the original ScriptableObject
     private void InstantiateCopiesOfResourceEntries() {
         // Create list for updated resource entries

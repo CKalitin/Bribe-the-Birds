@@ -118,7 +118,6 @@ public class StructureUpgradeEditor : Editor {
         //EditorGUILayout.LabelField(_index.ToString(), GUILayout.Width(aeLabelWidth), GUILayout.Height(aeHeight));
         structureUpgrade.Cost[_index].Resource = (GameResources)EditorGUILayout.EnumPopup(structureUpgrade.Cost[_index].Resource, GUILayout.Width(aeCostTypeWidth), GUILayout.Height(aeHeight));
         structureUpgrade.Cost[_index].Amount = EditorGUILayout.FloatField(structureUpgrade.Cost[_index].Amount, GUILayout.Width(aeCostAmountWidth), GUILayout.Height(aeHeight));
-
         // End horizontal line of elements
         EditorGUILayout.EndHorizontal();
     }
