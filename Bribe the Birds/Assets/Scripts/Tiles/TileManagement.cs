@@ -59,17 +59,12 @@ public class TileManagement : MonoBehaviour {
     [Header("Tiles")]
     private Dictionary<Vector2Int, TileInfo> tiles = new Dictionary<Vector2Int, TileInfo>();
 
-    [SerializeField] private GameObject tilePrefab;
-
     [Tooltip("This is used in the Structure script so they don't update all ResourceModifiers when they're spawned at first")]
-    public bool spawningComplete = false;
+    private bool spawningComplete = false;
 
     [Header("Specify")]
     [Tooltip("Tile Dimensions")]
     [SerializeField] private Vector2 tileDim = new Vector2(4.25f, 5f); // Tile dimensions
-
-    [Header("Debug")]
-    public List<string> stackTraces = new List<string>();
 
     public bool SpawningComplete { get => spawningComplete; set => spawningComplete = value; }
 
@@ -89,69 +84,16 @@ public class TileManagement : MonoBehaviour {
         }
     }
 
-    void Start() {
-        PlayerPrefs.SetInt("bool", 0);
-        PlayerPrefs.SetInt("iters", 0);
-
-        GenerateTiles();
-
-        ApplyTileRules();
-
-        List<Vector2Int> tileLocs = GetAdjacentTilesInRadius(new Vector2Int(12, 12), 3);
-        tileLocs.AddRange(GetAdjacentTilesInRadius(new Vector2Int(7, 7), 4));
-        //StartCoroutine(DestroyTilesDelayed(tileLocs));
-        DestroyTiles(tileLocs);
-    }
-
-    #endregion
-
-    #region Test functions
-
-    private void GenerateTiles() {
-        for (int x = 0; x < 21; x++) {
-            for (int y = 0; y < 21; y++) {
-                Vector2Int tileLoc = SpawnTile(tilePrefab, new Vector2Int(x, y));
-            }
-        }
-    }
-
-    private void DestroyTiles(List<Vector2Int> tileLocs) {
-        for (int i = 0; i < tileLocs.Count; i++) {
-            DestroyTile(tileLocs[i]);
-        }
-        // NECCESSARY TILE SPAWNING STUFF COPY THIS TO FINAL TILE GENERATION CODE (IN THIS ORDER)
-        spawningComplete = true;
-        ApplyTileRules();
-        ApplyResourceModifiersOnAllTiles();
-        // NECCESSARY TILE SPAWNING STUFF COPY THIS TO FINAL TILE GENERATION CODE (IN THIS ORDER)
-    }
-
-    private IEnumerator DestroyTilesDelayed(List<Vector2Int> tileLocs) {
-        float waitTime = 0;// .025f;
-
-        //yield return new WaitForSeconds(2);
-
-        for (int i = 0; i < tileLocs.Count; i++) {
-            yield return new WaitForSeconds(waitTime);
-            DestroyTile(tileLocs[i]);
-        }
-
-        //yield return new WaitForSeconds(0.1f);
-
-        // NECCESSARY TILE SPAWNING STUFF COPY THIS TO FINAL TILE GENERATION CODE (IN THIS ORDER)
-        spawningComplete = true;
-        ApplyTileRules();
-        ApplyResourceModifiersOnAllTiles();
-        // NECCESSARY TILE SPAWNING STUFF COPY THIS TO FINAL TILE GENERATION CODE (IN THIS ORDER)
-    }
-
     #endregion
 
     #region Tiles
 
     public Vector2Int SpawnTile(GameObject _tilePrefab, Vector2Int _location) {
-        if (tiles.ContainsKey(_location)) { return new Vector2Int(-999999999, -999999999); }
         // If tile already exists in location, return
+        //if (tiles.ContainsKey(_location)) { return new Vector2Int(-999999999, -999999999); }
+
+        // If tile already exists in location, delete old tile u idiot why would u just return ^^^
+        if (tiles.ContainsKey(_location)) { Destroy(tiles[_location].ParentObject); }
 
         GameObject tileObject = Instantiate(_tilePrefab, TileLocationToWorldPosition(_location, 0), Quaternion.identity); // Instantiate Tile Prefab
         tiles.Add(_location, new TileInfo(tileObject.GetComponent<Tile>().TileId, _location, tileObject.transform.position.y, tileObject, tileObject.GetComponent<Tile>().DefaultTileObject));
@@ -252,7 +194,6 @@ public class TileManagement : MonoBehaviour {
 
     public void ApplyResourceModifiersOnAllTiles() {
         ResourceModifierApplier[] appliers = FindObjectsOfType<ResourceModifierApplier>();
-        Debug.Log(appliers.Length);
         for (int i = 0; i < appliers.Length; i++) {
             appliers[i].ApplyResourceModifiers();
         }

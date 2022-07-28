@@ -18,7 +18,8 @@ public class ResourceManagement : MonoBehaviour {
     private Dictionary<float, List<int>> resourceTicks = new Dictionary<float, List<int>>();
 
     private RBHKUtils.IndexList<ResourceEntry> resourceEntries = new RBHKUtils.IndexList<ResourceEntry>();
-    
+    public List<ResourceEntry> resourceEntriesDisplay;
+
     private float totalDeltaTime = 0;
 
     #endregion
@@ -32,6 +33,7 @@ public class ResourceManagement : MonoBehaviour {
 
     private void Update() {
         TickUpdate();
+        resourceEntriesDisplay = resourceEntries.Values;
     }
 
     #endregion

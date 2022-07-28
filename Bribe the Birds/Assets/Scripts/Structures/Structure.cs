@@ -15,7 +15,6 @@ public class Structure : MonoBehaviour {
     [Header("Other")]
     [SerializeField] private Tile tile;
     public string upkeepCost;
-    public int rmsApplied;
 
     /*** Resources don't need to be public ***/
     private ResourceEntry[] resourceEntries;
@@ -33,6 +32,8 @@ public class Structure : MonoBehaviour {
 
         InitializeResourceEntries();
         InstantiateCopiesOfResourceEntries();
+
+        AddResourceEntriesToManagement(); // This is done in GetAndApplyResourceModifiers(), but if there are no RMs then it wouldn't be done, bug fixed!
 
         if (TileManagement.instance.SpawningComplete)
             GetAndApplyResourceModifiers();
@@ -109,18 +110,10 @@ public class Structure : MonoBehaviour {
 
     #region Resource Modifiers
 
+    // This is public because it's used by TileManagement
     private void InitializeResourceEntries() {
         resourceEntries = upgrades[upgradeIndex].ResourceEntries;
     }
-
-    // This is public because it's used by TileManagement
-    public void InitializeResourceEntries() {
-        resourceEntries = upgrades[upgradeIndex].ResourceEntries;
-    }
-
-    #endregion
-
-    #region Resource Modifiers
 
     // This function creates copies of the ResourceEntry Scriptable Objects so they don't affect the original ScriptableObject
     private void InstantiateCopiesOfResourceEntries() {
@@ -173,7 +166,6 @@ public class Structure : MonoBehaviour {
                 if (!CheckResourceIdMatch(applyResourceModifiers[i], resourceEntries[x])) continue;
                 ApplyResourceModifier(applyResourceModifiers[i], resourceEntries[x]);
                 appliedResourceModifiers.Add(tile.ResourceModifiers[i]);
-                rmsApplied++;
             }
 
             // Check to Remove resource modifiers from this resource entry
@@ -182,7 +174,6 @@ public class Structure : MonoBehaviour {
                 if (!CheckResourceIdMatch(removeResourceModifiers[i], resourceEntries[x])) continue;
                 RemoveResourceModifier(removeResourceModifiers[i], resourceEntries[x]);
                 appliedResourceModifiers.Remove(removeResourceModifiers[i]);
-                rmsApplied--;
             }
         }
 
@@ -228,16 +219,11 @@ public class Structure : MonoBehaviour {
         if (GetDefaultResourceEntry(_re) != null)
             change += GetDefaultResourceEntry(_re).Change * _rm.PercentageChange; // Get default change value so multiple modifiers do not stack
 
-        _re.Change += change;
+        _re.Change = change;
     }
 
     private void RemoveResourceModifier(ResourceModifier _rm, ResourceEntry _re) {
-        float change = 0f;
-        change -= _rm.Change;
-        if (GetDefaultResourceEntry(_re) != null)
-            change -= GetDefaultResourceEntry(_re).Change * _rm.PercentageChange; // Get default change value so multiple modifiers do not stack
-
-        _re.Change += change;
+        _re.Change = GetDefaultResourceEntry(_re).Change;
     }
 
     // Returns default value of resource entry (default from upgrade)

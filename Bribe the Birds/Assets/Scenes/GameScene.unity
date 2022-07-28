@@ -1046,7 +1046,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0.5, y: 0, z: 0, w: 0.8660254}
-  m_LocalPosition: {x: 45, y: 35, z: 10}
+  m_LocalPosition: {x: 45, y: 60, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2115,6 +2115,7 @@ Transform:
   m_Children:
   - {fileID: 1694746201}
   - {fileID: 576339517}
+  - {fileID: 1937601073}
   m_Father: {fileID: 339326109}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2692,7 +2693,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03632db92ce10db4a90627016580fe37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilePrefab: {fileID: 6262186715028251962, guid: 360fef3328636c44480e22db0df64474, type: 3}
   tileDim: {x: 4.395, y: 5}
 --- !u!1001 &1700252496
 PrefabInstance:
@@ -3240,6 +3240,56 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 55bd558e73003e24eb9877cee1eae684, type: 3}
   m_PrefabInstance: {fileID: 1869141117}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1937601072
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1937601073}
+  - component: {fileID: 1937601074}
+  m_Layer: 0
+  m_Name: Tile Generation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1937601073
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1937601072}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1262944315}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1937601074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1937601072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e3ec7e9362c03949a13bc269c54c1d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tilePrefab: {fileID: 6262186715028251962, guid: 360fef3328636c44480e22db0df64474, type: 3}
+  tilePrefabs:
+  - {fileID: 6262186715028251962, guid: e2df5bc2cfd105f43bcfa448d54523e0, type: 3}
+  - {fileID: 6262186715028251962, guid: 360fef3328636c44480e22db0df64474, type: 3}
+  - {fileID: 6262186715028251962, guid: e2df5bc2cfd105f43bcfa448d54523e0, type: 3}
+  - {fileID: 6262186715028251962, guid: e2df5bc2cfd105f43bcfa448d54523e0, type: 3}
 --- !u!1001 &1942267156
 PrefabInstance:
   m_ObjectHideFlags: 0
