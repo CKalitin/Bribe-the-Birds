@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName ="Resource Entry", menuName = "Scriptable Objects/Resources/Resource Entry")]
+[CreateAssetMenu(fileName ="Resource Entry", menuName = "RBHK/Resources/Resource Entry")]
 public class ResourceEntry : ScriptableObject {
     // Unlike MonoBehaviours all variables are public by default in Scriptable Objects, the more u know
     

@@ -1,7 +1,7 @@
 using System.IO;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "TileIds", menuName = "Scriptable Objects/Tiles/TileIds", order = 0)]
+[CreateAssetMenu(fileName = "TileIds", menuName = "RBHK/Tiles/TileIds", order = 0)]
 public class TileIds : ScriptableObject {
     [SerializeField] private string[] tileIds;
     [Space]

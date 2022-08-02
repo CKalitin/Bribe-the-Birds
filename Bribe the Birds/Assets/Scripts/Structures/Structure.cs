@@ -14,13 +14,15 @@ public class Structure : MonoBehaviour {
 
     [Header("Other")]
     [SerializeField] private Tile tile;
-    public string upkeepCost;
+
+    private StructureLocation structureLocation;
 
     /*** Resources don't need to be public ***/
     private ResourceEntry[] resourceEntries;
     private List<int> appliedResourceEntryIndexes = new List<int>(); // Applied on Resource Management
     private List<ResourceModifier> appliedResourceModifiers = new List<ResourceModifier>(); // This is used to get which ResourceModifiers don't need to be updated again
 
+    public StructureLocation StructureLocation { get => structureLocation; set => structureLocation = value; }
     public ResourceEntry[] ResourceEntries { get => resourceEntries; set => resourceEntries = value; }
 
     #endregion
@@ -39,14 +41,6 @@ public class Structure : MonoBehaviour {
             GetAndApplyResourceModifiers();
     }
 
-    private void Update() {
-        if (resourceEntries.Length > 0) {
-            upkeepCost = resourceEntries[0].Change.ToString();
-        } else {
-            upkeepCost = resourceEntries.Length.ToString();
-        }
-    }
-
     private void InitVars() {
         if (transform.parent.GetComponent<Tile>()) {
             tile = transform.parent.GetComponent<Tile>();
@@ -54,12 +48,18 @@ public class Structure : MonoBehaviour {
         }
     }
 
-    private void OnDisable() {
+    private void OnDestroy() {
         tile.Structures.Remove(this);
+        if (structureLocation)
+            structureLocation.AssignedStructure = null;
+    }
+
+    public void DestroyStructure() {
+        Destroy(gameObject);
     }
 
     #endregion
-        
+
     #region Upgrading
 
     public void UpgradeToNextLevel() {

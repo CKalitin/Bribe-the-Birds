@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName ="Tile Rule", menuName = "Scriptable Objects/Tiles/Tile Rule")]
+[CreateAssetMenu(fileName ="Tile Rule", menuName = "RBHK/Tiles/Tile Rule")]
 public class TileRule : ScriptableObject {
     [SerializeField] private Tiles intendedTileId;
     [Space]

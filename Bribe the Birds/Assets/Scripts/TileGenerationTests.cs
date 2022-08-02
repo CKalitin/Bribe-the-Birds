@@ -2,20 +2,46 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TileGeneration : MonoBehaviour {
+public class TileGenerationTests : MonoBehaviour {
+    #region Variables
+
     [Header("Test Generation 1")]
     [SerializeField] private GameObject tilePrefab;
 
     [Header("Test Generation 2")]
     [SerializeField] private GameObject[] tilePrefabs;
 
-    void Start() {
-        TestGeneration2();
+    [Header("Test Generation 3")]
+    [SerializeField] private TilePrefabsArray[] tilePrefabsMatrix;
+
+    [System.Serializable]
+    public struct TilePrefabsArray {
+        [SerializeField] public GameObject[] tilePrefabs;
     }
 
-    void Update() {
-        
+    #endregion
+
+    void Start() {
+        TestGeneration3();
     }
+
+    #region Test Generation 3
+
+    private void TestGeneration3() {
+        for (int x = 0; x < tilePrefabsMatrix.Length; x++) {
+            for (int y = 0; y < tilePrefabsMatrix[x].tilePrefabs.Length; y++) {
+                TileManagement.instance.SpawnTile(tilePrefabsMatrix[x].tilePrefabs[y], new Vector2Int(x, y));
+            }
+        }
+
+        // NECCESSARY TILE SPAWNING STUFF COPY THIS TO FINAL TILE GENERATION CODE (IN THIS ORDER)
+        TileManagement.instance.SpawningComplete = true;
+        TileManagement.instance.ApplyTileRules();
+        TileManagement.instance.ApplyResourceModifiersOnAllTiles();
+        // NECCESSARY TILE SPAWNING STUFF COPY THIS TO FINAL TILE GENERATION CODE (IN THIS ORDER)
+    }
+
+    #endregion
 
     #region Test Generation 2
 
@@ -44,8 +70,8 @@ public class TileGeneration : MonoBehaviour {
         List<Vector2Int> tileLocs = TileManagement.instance.GetAdjacentTilesInRadius(new Vector2Int(12, 12), 3);
         tileLocs.AddRange(TileManagement.instance.GetAdjacentTilesInRadius(new Vector2Int(7, 7), 4));
 
-        //StartCoroutine(DestroyTilesDelayed(tileLocs));
-        DestroyTiles1(tileLocs);
+        StartCoroutine(DestroyTilesDelayed1(tileLocs));
+        //DestroyTiles1(tileLocs);
     }
 
 
@@ -77,7 +103,6 @@ public class TileGeneration : MonoBehaviour {
             yield return new WaitForSeconds(waitTime);
             TileManagement.instance.DestroyTile(tileLocs[i]);
         }
-
         //yield return new WaitForSeconds(0.1f);
 
         // NECCESSARY TILE SPAWNING STUFF COPY THIS TO FINAL TILE GENERATION CODE (IN THIS ORDER)

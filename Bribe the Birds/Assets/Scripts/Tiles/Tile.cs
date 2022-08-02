@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Tile : MonoBehaviour {
-    // These variables should only be used for initialization of tileInfo, Also, it's wise to not use 0
-    [Header("User Specified")]
-    [Tooltip("These variables should only be used for initialization of tileInfo")]
+    // These variables should only be used for initialization of tileInfo, Also, it's wise to not use 0 for tileID
+    [Header("Initialization")]
+    [Tooltip("Very important for Tile Rules pls specify.")]
     [SerializeField] private Tiles tileId;
-    [Tooltip("These variables should only be used for initialization of tileInfo.\nThis field is empty/'missing' after Start().")]
+    [Tooltip("This variable is neccessary and only used in instantiation. Put the existing tile object here.")]
     [SerializeField] private GameObject defaultTileObject;
-    [Space]
+
+    [Header("Tile")]
     [SerializeField] private TileRule[] tileRules;
 
-    [Header("Resources & Structures")]
-    [Tooltip("DEBUG FIELD DON'T CHANGE VALUES\nThe structures that are on this tile")]
+    [Header("Debug")]
+    [Tooltip("DEBUG FIELD DON'T CHANGE VALUES\nThe structures that are on this tile.")]
     [SerializeField] private List<Structure> structures = new List<Structure>();
     [Tooltip("DEBUG FIELD DON'T CHANGE VALUES\nResource Modifiers that will be applied to all buildings on this tile.")]
     [SerializeField] private RBHKUtils.IndexList<ResourceModifier> resourceModifiers = new RBHKUtils.IndexList<ResourceModifier>();
@@ -21,13 +22,16 @@ public class Tile : MonoBehaviour {
     private TileInfo tileInfo;
 
     public Tiles TileId { get => tileId; set => tileId = value; }
-    public GameObject DefaultTileObject { get => defaultTileObject; set => defaultTileObject = value; }
     public TileInfo TileInfo { get => tileInfo; set => tileInfo = value; }
+    public GameObject DefaultTileObject { get => defaultTileObject; set => defaultTileObject = value; }
     public List<Structure> Structures { get => structures; set => structures = value; }
     public RBHKUtils.IndexList<ResourceModifier> ResourceModifiers { get => resourceModifiers; set => resourceModifiers = value; }
 
     void Start() {
-        
+        if (TileManagement.instance.SpawningComplete) {
+            ApplyTileRules();
+            UpdateResourceModifiers(); // Putting this line here just in case
+        }
     }
 
     void Update() {

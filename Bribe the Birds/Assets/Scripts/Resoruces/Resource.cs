@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName ="Resource", menuName = "Scriptable Objects/Resources/Resource")]
+[CreateAssetMenu(fileName ="Resource", menuName = "RBHK/Resources/Resource")]
 public class Resource : ScriptableObject {
     [SerializeField] private GameResources resourceId;
     [SerializeField] private ResourceInfo resourceInfo;

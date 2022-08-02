@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName ="Resource Modifier", menuName ="Scriptable Objects/Resources/Resource Modifier")]
+[CreateAssetMenu(fileName ="Resource Modifier", menuName ="RBHK/Resources/Resource Modifier")]
 public class ResourceModifier : ScriptableObject {
     [Tooltip("This is the Resource Type the Modifier effects.")]
     [SerializeField] private GameResources resourceIdTarget;

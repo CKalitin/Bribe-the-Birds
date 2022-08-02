@@ -4,7 +4,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-[CreateAssetMenu(fileName ="ResourceIds", menuName = "Scriptable Objects/Resources/ResourceIds", order =0)]
+[CreateAssetMenu(fileName ="ResourceIds", menuName = "RBHK/Resources/ResourceIds", order =0)]
 public class ResourceIds : ScriptableObject {
     [Header("Resources Ids & Resource Entry Ids")]
     [SerializeField] private string[] resourceIds;

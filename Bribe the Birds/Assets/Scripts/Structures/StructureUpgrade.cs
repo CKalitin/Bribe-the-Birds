@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName ="Structure Upgrade", menuName ="Scriptable Objects/Structure Upgrade")]
+[CreateAssetMenu(fileName ="Structure Upgrade", menuName ="RBHK/Structures/Structure Upgrade")]
 public class StructureUpgrade : ScriptableObject {
     [Tooltip("New Resource Entries for Structure, replaces old entries, modifiers are still applied.")]
     [SerializeField] private ResourceEntry[] resourceEntries;
