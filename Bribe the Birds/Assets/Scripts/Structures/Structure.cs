@@ -10,12 +10,12 @@ public class Structure : MonoBehaviour {
     [SerializeField] private StructureUpgrade[] upgrades;
     
     [Tooltip("This is only public so you can see the value, changing it won't do anything.\nbtw hey there future chris")]
-    public int upgradeIndex = 0;
+    private int upgradeIndex = 0;
 
     [Header("Other")]
+    [Tooltip("These fields need to be specified if the Structure if placed in editor and not in game.\nIf it's placed in game using the Structure Building these fields are determiend.")]
     [SerializeField] private Tile tile;
-
-    private StructureLocation structureLocation;
+    [SerializeField] private StructureLocation structureLocation;
 
     /*** Resources don't need to be public ***/
     private ResourceEntry[] resourceEntries;
